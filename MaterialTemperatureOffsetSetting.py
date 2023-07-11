@@ -132,7 +132,7 @@ class MaterialTemperatureOffsetSetting(Extension):
                             except ValueError:
                                 Logger.log("e", "Unable to process Temparature in line %s", line)
                                 continue
-                            lines[line_nr] = "M104 " + str(adjusted_temp)+ " ;adjusted by temp offset"
+                            lines[line_nr] = "M104 S" + str(adjusted_temp)+ " ;adjusted by temp offset"
                             break
 
                     gcode_list[list_nr] = "\n".join(lines)

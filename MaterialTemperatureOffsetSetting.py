@@ -21,7 +21,7 @@ class MaterialTemperatureOffsetSetting(Extension):
 
         self._settings_dict = OrderedDict()
         self._settings_dict["material_temp_offset"] = {
-            "label": "Temparature Offset",
+            "label": "Temperature Offset",
             "description": "Change printing temperature relative to the material's temperature.",
             "type": "float",
             "unit": "°C",

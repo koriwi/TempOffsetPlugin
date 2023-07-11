@@ -11,7 +11,7 @@ from UM.Settings.DefinitionContainer import DefinitionContainer
 from UM.Settings.ContainerRegistry import ContainerRegistry
 from UM.Logger import Logger
 
-class TempOffsetPlugin(Extension):
+class MaterialTemperatureOffsetSetting(Extension):
     def __init__(self):
         super().__init__()
 
@@ -32,16 +32,6 @@ class TempOffsetPlugin(Extension):
             "settable_per_extruder": False,
             "settable_per_meshgroup": False
         }
-        # self._settings_dict["adhesion_z_offset_extensive_processing"] = {
-        #     "label": "Extensive Z Offset Processing",
-        #     "description": "Apply the Z Offset throughout the Gcode file instead of affecting the coordinate system. Turning this option on will increase the processing time so it is recommended to leave it off, but it may be needed for some firmware versions.",
-        #     "type": "bool",
-        #     "default_value": False,
-        #     "value": "True if machine_gcode_flavor == \"Griffin\" else False",
-        #     "settable_per_mesh": False,
-        #     "settable_per_extruder": False,
-        #     "settable_per_meshgroup": False
-        # }
 
         ContainerRegistry.getInstance().containerLoadComplete.connect(self._onContainerLoadComplete)
 
@@ -68,13 +58,19 @@ class TempOffsetPlugin(Extension):
         
         material_category = container.findDefinitions(key="material")
         temp_offset_setting = container.findDefinitions(key=list(self._settings_dict.keys())[0])
+
         if material_category and not temp_offset_setting:
             # this machine doesn't have a temp offset setting yet
             material_category = material_category[0]
             for setting_key, setting_dict in self._settings_dict.items():
 
                 definition = SettingDefinition(setting_key, container, material_category, self._i18n_catalog)
-                definition.deserialize(setting_dict)
+
+                try:
+                    definition.deserialize(setting_dict)
+                except Exception as e:
+                    print("e", "Unable to deserialize setting %s: %s", setting_key, e)
+                    continue
 
                 # add the setting to the already existing platform adhesion settingdefinition
                 # private member access is naughty, but the alternative is to serialise, nix and deserialise the whole thing,

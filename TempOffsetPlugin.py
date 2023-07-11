@@ -20,7 +20,7 @@ class TempOffsetPlugin(Extension):
         self._i18n_catalog = None
 
         self._settings_dict = OrderedDict()
-        self._settings_dict["temp_offset"] = {
+        self._settings_dict["material_temp_offset"] = {
             "label": "Temparature Offset",
             "description": "Change printing temperature relative to the material's temperature.",
             "type": "float",
@@ -92,7 +92,7 @@ class TempOffsetPlugin(Extension):
             return
 
         # get setting from Cura
-        temp_offset_value = global_container_stack.getProperty("temp_offset", "value")
+        temp_offset_value = global_container_stack.getProperty("material_temp_offset", "value")
         if temp_offset_value == 0:
             return
 

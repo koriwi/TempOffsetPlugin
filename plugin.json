@@ -1,5 +1,5 @@
 {
-  "name": "Temp Offset plugin",
+  "name": "Material Temperature Offset Setting",
   "author": "koriwi",
   "version": "0.1.0",
   "description": "Adds a Temp Offset setting to change the temperature of the material shared between printers",
